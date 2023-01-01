@@ -21,3 +21,6 @@ backend kubernetes-masters
     server kmaster1 <master1-ip>:6443 
     server kmaster2 <masyer2-ip>:6443 
 ```
+
+### Restart haproxy service
+systemctl restart haproxy
