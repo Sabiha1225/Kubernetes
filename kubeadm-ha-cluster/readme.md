@@ -37,4 +37,16 @@ install -m 755 runc.amd64 /usr/local/sbin/runc
 wget https://github.com/containernetworking/plugins/releases/download/v1.1.1/cni-plugins-linux-amd64-v1.1.1.tgz
 mkdir -p /opt/cni/bin
 tar Cxzvf /opt/cni/bin cni-plugins-linux-amd64-v1.1.1.tgz
+
+mkdir -p /etc/containerd/
+containerd config default | sudo tee /etc/containerd/config.toml
+
+sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+
+curl -L https://raw.githubusercontent.com/containerd/containerd/main/containerd.service -o /etc/systemd/system/containerd.service
+
+systemctl daemon-reload
+
+systemctl start containerd
+systemctl enable containerd
 ```
