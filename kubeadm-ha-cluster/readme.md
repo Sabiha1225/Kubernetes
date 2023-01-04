@@ -25,7 +25,7 @@ backend kubernetes-masters
 ###### Restart haproxy service
 systemctl restart haproxy
 
-##Install Containerd
+## Install Containerd
 ```
 sudo su -
 wget https://github.com/containerd/containerd/releases/download/v1.6.14/containerd-1.6.14-linux-amd64.tar.gz
@@ -49,4 +49,28 @@ systemctl daemon-reload
 
 systemctl start containerd
 systemctl enable containerd
+```
+## Install Cluster with kubeadm
+###### Install kubeadm, kubelet, kubectl
+
+###### Disable Swap
+swapoff -a; sed -i '/swap/d' /etc/fstab
+
+```
+cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kubelet kubeadm kubectl
+EOF
+
+# Set SELinux in permissive mode (effectively disabling it)
+sudo setenforce 0
+sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+sudo systemctl enable --now kubelet
 ```
