@@ -74,3 +74,11 @@ sudo sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 sudo systemctl enable --now kubelet
 ```
+
+
+## Cluster Creation
+#### Run the below command in one of the control plane
+
+```
+kubeadm init --control-plane-endpoint "<load-balancer-ip>:6443" --upload-certs --pod-network-cidr=10.222.0.0/16
+```
