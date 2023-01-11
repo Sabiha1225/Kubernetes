@@ -80,5 +80,5 @@ sudo systemctl enable --now kubelet
 #### Run the below command in one of the control plane
 
 ```
-kubeadm init --control-plane-endpoint "<load-balancer-ip>:6443" --upload-certs --pod-network-cidr=10.222.0.0/16 -v=9
+kubeadm init --control-plane-endpoint "<load-balancer-ip>:6443" --upload-certs --pod-network-cidr=10.222.0.0/16 --v=9
 ```
